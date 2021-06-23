@@ -1,0 +1,113 @@
+# Coffee machine
+water = 400
+milk = 540
+beans = 120
+cups = 9
+balance = 550
+
+
+def fill_machine():
+    global water, milk, beans, cups
+    print("Write how many ml of water you want to add:")
+    water += int(input())
+    print("Write how many ml of milk you want to add:")
+    milk += int(input())
+    print("Write how many grams of coffee beans you want to add:")
+    beans += int(input())
+    print("Write how many disposable coffee cups you want to add")
+    cups += int(input())
+
+
+def get_status():
+    print("The coffee machine has:")
+    print("{} of water".format(water))
+    print("{} of milk".format(milk))
+    print("{} of coffee beans".format(beans))
+    print("{} of disposable cups".format(cups))
+    print("{} of money".format(balance))
+
+
+def buy_espresso():
+    global water, milk, beans, cups, balance
+    if check_resource(250, 0, 16, 1):
+        water -= 250
+        beans -= 16
+        cups -= 1
+        balance += 4
+
+
+def buy_latte():
+    global water, milk, beans, cups, balance
+    if check_resource(350, 75, 20, 1):
+        water -= 350
+        milk -= 75
+        beans -= 20
+        cups -= 1
+        balance += 7
+
+
+def buy_cappuccino():
+    global water, milk, beans, cups, balance
+    if check_resource(200, 100, 12, 1):
+        water -= 200
+        milk -= 100
+        beans -= 12
+        cups -= 1
+        balance += 6
+
+
+def check_resource(w, m, b, c):
+    if water < w:
+        print("Sorry, not enough water!")
+        return False
+    if milk < m:
+        print("Sorry, not enough milk!")
+        return False
+    if beans < b:
+        print("Sorry, not enough coffee beans!")
+        return False
+    if cups < c:
+        print("Sorry, not enough cups!")
+        return False
+    return True
+
+
+def buy():
+    print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")
+    operation = input()
+    if operation == "1":
+        buy_espresso()
+    if operation == "2":
+        buy_latte()
+    if operation == "3":
+        buy_cappuccino()
+
+
+def get_balance():
+    global balance
+    print("I gave you ${}".format(balance))
+    balance = 0
+
+
+def menu():
+    print("Write action (buy, fill, take, remaining, exit):")
+    operation = input()
+    if operation == "buy":
+        buy()
+        return True
+    if operation == "fill":
+        fill_machine()
+        return True
+    if operation == "take":
+        get_balance()
+        return True
+    if operation == "remaining":
+        get_status()
+        return True
+    if operation == "exit":
+        return False
+
+
+while True:
+    if not menu():
+        break
